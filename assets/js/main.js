@@ -46,6 +46,41 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // 수상이력(award) 모달 핸들링
+    const awardItems = document.querySelectorAll('.award-item');
+    const modal = document.querySelector('#award-modal');
+    const modalOverlay = document.querySelector('#award-modal .modal-overlay');
+    const modalImg = document.querySelector('#award-modal .modal-image');
+    const modalTitle = document.querySelector('#award-modal .modal-title');
+    const modalDesc = document.querySelector('#award-modal .modal-desc');
+    const modalClose = document.querySelector('#award-modal .modal-close');
+
+    if (awardItems && modal) {
+        awardItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const img = item.getAttribute('data-image') || '';
+                const title = item.getAttribute('data-title') || '';
+                const desc = item.getAttribute('data-desc') || '';
+
+                if (modalImg) modalImg.src = img;
+                if (modalTitle) modalTitle.textContent = title;
+                if (modalDesc) modalDesc.textContent = desc;
+
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        const closeModal = () => {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        };
+
+        if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
+        if (modalClose) modalClose.addEventListener('click', closeModal);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+    }
 });
 
 // 마우스 커서 효과 (선택사항)
