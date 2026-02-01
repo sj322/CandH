@@ -7,128 +7,562 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
-        * { font-family: 'Noto Sans KR', sans-serif; }
-        body { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); }
-        .profile-card, .portfolio-item, .award-item {
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.3s ease;
-            border-radius: 12px;
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap');
+        
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
         }
-        .award-item:hover { transform: translateY(-6px); background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.18); }
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:50; }
-        .modal-window { max-width:900px; width:95%; background: rgba(255,255,255,0.04); border-radius:12px; padding:20px; border:1px solid rgba(255,255,255,0.12); box-shadow:0 20px 50px rgba(0,0,0,0.6); color:#fff; }
-        .modal-image { width: 100%; max-height: 450px; object-fit:contain; border-radius:8px; }
+        
+        body {
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0d1629 100%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+        
+        /* Navigation */
+        nav {
+            background: rgba(10, 14, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 0.15em;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: white;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+        }
+        
+        /* Page Header */
+        .page-header {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: rgba(59, 130, 246, 0.05);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .page-title {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 900;
+            color: white;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.8) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .page-subtitle {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 0.5rem;
+        }
+        
+        /* Content Section */
+        .content {
+            padding: 5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .intro-text {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 3rem;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+        
+        /* Gallery */
+        .gallery-item {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 4rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 15px 35px rgba(59, 130, 246, 0.15);
+        }
+        
+        .gallery-image {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            filter: brightness(0.85);
+            transition: filter 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-image {
+            filter: brightness(1);
+        }
+        
+        .gallery-overlay {
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.05));
+        }
+        
+        .gallery-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Awards Grid */
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .award-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .award-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .award-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
+        }
+        
+        .award-card:hover::before {
+            left: 100%;
+        }
+        
+        .award-icon {
+            font-size: 2.5rem;
+            color: #60a5fa;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .award-card:hover .award-icon {
+            transform: scale(1.15);
+        }
+        
+        .award-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.75rem;
+        }
+        
+        .award-description {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-window {
+            max-width: 900px;
+            width: 95%;
+            background: rgba(10, 14, 39, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+            color: white;
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+        
+        .modal-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+        
+        .modal-image {
+            width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-desc {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(10, 14, 39, 0.5);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem 2rem 1.5rem;
+            margin-top: 5rem;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-description {
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
     </style>
 </head>
-<body class="text-white">
-    <div class="max-w-7xl mx-auto px-6 py-20">
-        <div class="flex items-center justify-between mb-8">
-            <h1 class="text-4xl md:text-5xl font-bold">수상이력</h1>
-            <a href="index.html" class="inline-block px-6 py-2 bg-white bg-opacity-10 hover:bg-opacity-20 text-white rounded-full transition-all duration-300 border border-white border-opacity-20 hover:border-opacity-40">홈으로</a>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">C&H</a>
+            <div class="nav-links">
+                <a href="index.html#features">소개</a>
+                <a href="index.html#team">팀원</a>
+                <a href="index.html#portfolio">포트폴리오</a>
+                <a href="past_member.html">역대 회원</a>
+                <a href="prize.html">수상이력</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="header-content">
+            <h1 class="page-title">수상이력</h1>
+            <p class="page-subtitle">C&H의 주요 성과와 수상 기록</p>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="content">
+        <div class="intro-text">
+            C&H가 그동안 이루어낸 혁신적인 성과들입니다.<br>
+            각 항목을 클릭하면 더 자세한 정보를 확인할 수 있습니다.
         </div>
 
-        <!-- Gallery: 상장 모아 -->
-        <div class="mb-8">
-        <div class="award-item relative overflow-hidden rounded-xl cursor-pointer" data-image="./assets/images/prize/total.jpg" data-title="수상 모음 사진" data-desc="지금까지 받은 상장들을 모아 찍은 사진입니다.">
-            <img src="./assets/images/prize/total.jpg" alt="수상 모음" class="w-full h-56 md:h-96 object-cover object-center filter brightness-75" />
-                <div class="absolute inset-0 flex items-start px-8 pt-6 md:pt-12">
-                    <p class="text-gray-200/40 max-w-2xl"> 클릭하면 이미지를 크게 볼 수 있습니다.</p>
-                    <!-- <div class="text-white">
-                        <h2 class="text-2xl md:text-3xl font-bold">갤러리</h2>
-                        <p class="text-gray-200/80 mt-2 max-w-2xl">여러 상장을 콜라주 형태로 배치한 사진입니다.</p>
-                        <p class="text-gray-200/80 mt-2 max-w-2xl"> 클릭하면 이미지를 크게 볼 수 있습니다.</p>
-                    </div> -->
-                </div>
+        <!-- Gallery -->
+        <div class="gallery-item" onclick="openModal('갤러리', './assets/images/prize/total.jpg', '지금까지 받은 상장들을 모아 찍은 사진입니다. 팀의 노고와 헌신의 결과를 담고 있습니다.')">
+            <img src="./assets/images/prize/total.jpg" alt="수상 모음" class="gallery-image" />
+            <div class="gallery-overlay">
+                <p class="gallery-label">📸 갤러리</p>
+                <h3 style="font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 0.5rem;">수상 모음 사진</h3>
+                <p style="color: rgba(255, 255, 255, 0.6);">클릭하여 전체 이미지를 크게 보세요</p>
             </div>
         </div>
 
-        <p class="text-gray-300 mb-8">C&H의 주요 수상 및 경력입니다. 항목을 클릭하면 사진과 간단한 설명을 확인할 수 있습니다.</p>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Awards Grid -->
+        <div class="awards-grid">
             <!-- Award 1 -->
-            <div class="award-item p-6 cursor-pointer" data-image="./assets/images/prize/co_show.jpg" data-title="창업 경진대회 대상 (2024)" data-desc="부산광역시장상 수상">
-                <div class="flex items-start gap-4">
-                    <i class="fas fa-trophy text-3xl text-white opacity-80"></i>
-                    <div>
-                        <h3 class="text-xl font-bold">co-show 최우수상</h3>
-                        <p class="text-gray-400 text-sm mt-2">혁신적 아이디어와 팀워크로 우수한 성과를 거둠.</p>
-                    </div>
+            <div class="award-card" onclick="openModal('co-show 최우수상', './assets/images/prize/co_show.jpg', '창업 경진대회에서 혁신적인 아이디어와 팀워크로 우수한 성과를 거두며 부산광역시장상을 수상했습니다.')">
+                <div class="award-icon">
+                    <i class="fas fa-trophy"></i>
                 </div>
+                <h3 class="award-title">co-show 최우수상</h3>
+                <p class="award-description">혁신적 아이디어와 팀워크로 우수한 성과를 거둠.</p>
             </div>
 
             <!-- Award 2 -->
-            <div class="award-item p-6 cursor-pointer" data-image="" data-title="기술창업 아이디어상" data-desc="핵심 기술 설계 및 프로토타입으로 수상.">
-                <div class="flex items-start gap-4">
-                    <i class="fas fa-award text-3xl text-white opacity-80"></i>
-                    <div>
-                        <h3 class="text-xl font-bold">제목</h3>
-                        <p class="text-gray-400 text-sm mt-2">간단설명</p>
-                    </div>
+            <div class="award-card" onclick="openModal('기술창업 아이디어상', '', '핵심 기술 설계 및 프로토타입 개발로 기술창업 부문에서 아이디어상을 수상했습니다.')">
+                <div class="award-icon">
+                    <i class="fas fa-lightbulb"></i>
                 </div>
+                <h3 class="award-title">기술창업 아이디어상</h3>
+                <p class="award-description">핵심 기술 설계 및 프로토타입으로 수상.</p>
             </div>
 
             <!-- Award 3 -->
-            <div class="award-item p-6 cursor-pointer" data-image="" data-title="창업 멘토상" data-desc="팀 활동 및 멘토링 우수 활동으로 선정.">
-                <div class="flex items-start gap-4">
-                    <i class="fas fa-medal text-3xl text-white opacity-80"></i>
-                    <div>
-                        <h3 class="text-xl font-bold">제목</h3>
-                        <p class="text-gray-400 text-sm mt-2">간단설명</p>
-                    </div>
+            <div class="award-card" onclick="openModal('창업 멘토상', '', '팀 활동 및 멘토링 활동에서 우수한 기여로 창업 멘토상을 수상했습니다.')">
+                <div class="award-icon">
+                    <i class="fas fa-hands-helping"></i>
                 </div>
+                <h3 class="award-title">창업 멘토상</h3>
+                <p class="award-description">팀 활동 및 멘토링 우수 활동으로 선정.</p>
             </div>
 
             <!-- Award 4 -->
-            <div class="award-item p-6 cursor-pointer" data-image="" data-title="우수과제상" data-desc="교내 연구과제에서 우수한 성과로 수상.">
-                <div class="flex items-start gap-4">
-                    <i class="fas fa-lightbulb text-3xl text-white opacity-80"></i>
-                    <div>
-                        <h3 class="text-xl font-bold">제목</h3>
-                        <p class="text-gray-400 text-sm mt-2">간단설명</p>
-                    </div>
+            <div class="award-card" onclick="openModal('우수과제상', '', '교내 연구과제에서 우수한 성과와 혁신적인 접근으로 우수과제상을 수상했습니다.')">
+                <div class="award-icon">
+                    <i class="fas fa-medal"></i>
                 </div>
+                <h3 class="award-title">우수과제상</h3>
+                <p class="award-description">교내 연구과제에서 우수한 성과로 수상.</p>
             </div>
 
             <!-- Award 5 -->
-            <div class="award-item p-6 cursor-pointer" data-image="" data-title="사회공헌상" data-desc="지역사회와 연계한 프로젝트로 수상.">
-                <div class="flex items-start gap-4">
-                    <i class="fas fa-hands-helping text-3xl text-white opacity-80"></i>
-                    <div>
-                        <h3 class="text-xl font-bold">제목</h3>
-                        <p class="text-gray-400 text-sm mt-2">간단설명</p>
-                    </div>
+            <div class="award-card" onclick="openModal('사회공헌상', '', '지역사회와의 연계를 통한 프로젝트를 추진하여 사회공헌상을 수상했습니다.')">
+                <div class="award-icon">
+                    <i class="fas fa-heart"></i>
                 </div>
+                <h3 class="award-title">사회공헌상</h3>
+                <p class="award-description">지역사회와 연계한 프로젝트로 수상.</p>
             </div>
 
             <!-- Award 6 -->
-            <div class="award-item p-6 cursor-pointer" data-image="" data-title="우수팀워크상" data-desc="팀 내 협업과 조직문화 기여로 수상.">
-                <div class="flex items-start gap-4">
-                    <i class="fas fa-users text-3xl text-white opacity-80"></i>
-                    <div>
-                        <h3 class="text-xl font-bold">제목</h3>
-                        <p class="text-gray-400 text-sm mt-2">간단설명</p>
-                    </div>
+            <div class="award-card" onclick="openModal('우수팀워크상', '', '팀 내 협업과 조직문화 발전에 기여하여 우수팀워크상을 수상했습니다.')">
+                <div class="award-icon">
+                    <i class="fas fa-users"></i>
                 </div>
+                <h3 class="award-title">우수팀워크상</h3>
+                <p class="award-description">팀 내 협업과 조직문화 기여로 수상.</p>
             </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div id="award-modal" class="modal-overlay">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title">제목</h2>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <img id="modal-image" class="modal-image" src="" alt="상세이미지" style="display:none;" />
+            <p id="modal-desc" class="modal-desc"></p>
         </div>
     </div>
 
-    <!-- Modal (hidden by default) -->
-    <div id="award-modal" class="hidden">
-        <div class="modal-overlay">
-            <div class="modal-window">
-                <div class="flex justify-end">
-                    <button class="modal-close text-gray-300 hover:text-white text-xl"><i class="fas fa-times"></i></button>
-                </div>
-                <h2 class="modal-title text-2xl font-bold mb-4">제목</h2>
-                <img class="modal-image mb-4" src="" alt="award image" />
-                <p class="modal-desc text-gray-300"></p>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">C&H</div>
+            <p class="footer-description">함께 성장하며 혁신을 만들어갑니다</p>
+            <div class="footer-links">
+                <a href="index.html#team">팀원</a>
+                <a href="index.html#portfolio">포트폴리오</a>
+                <a href="past_member.html">역대 회원</a>
+            </div>
+            <div class="footer-bottom">
+                © 2024 C&H. All rights reserved.
             </div>
         </div>
-    </div>
+    </footer>
+
+    <script>
+        function openModal(title, image, desc) {
+            const modal = document.getElementById('award-modal');
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-desc').textContent = desc;
+            
+            const imgElement = document.getElementById('modal-image');
+            if (image) {
+                imgElement.src = image;
+                imgElement.style.display = 'block';
+            } else {
+                imgElement.style.display = 'none';
+            }
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('award-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('award-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
 
     <script src="assets/js/main.js"></script>
 </body>
