@@ -185,11 +185,61 @@
             gap: 2rem;
             margin-bottom: 3rem;
         }
+
+        .first-gen-row {
+            display: flex;
+            gap: 2rem;
+            align-items: stretch;
+            margin-bottom: 3rem;
+        }
+
+        .first-gen-row .MVPmembers-grid {
+            flex: 0 0 380px;
+            margin-bottom: 0;
+        }
+
+        .first-gen-row .members-grid {
+            flex: 1;
+            margin-bottom: 0;
+            grid-template-columns: repeat(4, minmax(160px, 1fr));
+        }
+
+        .small-gens-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .small-gens-row .generation-section {
+            margin-bottom: 0;
+        }
         
         @media (max-width: 768px) {
             .members-grid {
                 grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
                 gap: 1.5rem;
+            }
+
+            .first-gen-row {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .first-gen-row .MVPmembers-grid {
+                flex: 1;
+            }
+
+            .first-gen-row .members-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            }
+
+            .small-gens-row {
+                grid-template-columns: 1fr;
+            }
+
+            .small-gens-row .generation-section {
+                margin-bottom: 3rem;
             }
         }
         
@@ -225,6 +275,33 @@
         
         .member-card:hover::before {
             left: 100%;
+        }
+
+        .member-card.current-member {
+            border-color: rgba(96, 165, 250, 0.65);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.18), rgba(139, 92, 246, 0.1));
+            box-shadow: 0 0 0 1px rgba(96, 165, 250, 0.25), 0 18px 35px rgba(59, 130, 246, 0.22);
+        }
+
+        .member-card.current-member::after {
+            content: 'CURRENT';
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 0.62rem;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+            color: #dbeafe;
+            background: rgba(59, 130, 246, 0.35);
+            border: 1px solid rgba(147, 197, 253, 0.45);
+            border-radius: 999px;
+            padding: 3px 8px;
+            line-height: 1;
+        }
+
+        .member-card.current-member .member-period {
+            color: #bfdbfe;
+            font-weight: 700;
         }
         
         .member-image {
@@ -355,7 +432,7 @@
                 <a href="index.html#team">팀원</a>
                 <a href="index.html#portfolio">포트폴리오</a>
                 <a href="past_member.html">역대 회원</a>
-                <a href="prize.html">수상이력</a>
+                <a href="prize_activity.html">수상이력/활동</a>
             </div>
         </div>
     </nav>
@@ -374,68 +451,107 @@
         <!-- Generation 1 -->
         <div class="generation-section">
             <h2 class="generation-title">1기</h2>
-            <div class="MVPmembers-grid">
-                <div class="member-card">
-                    <div class="member-info">MVP</div>
-                    <div class="member-image"><i class="fas fa-user"></i></div>
-                    <div class="member-name">문동형</div>
-                    <div class="member-period">2021 ~ 2023</div>
-                    <div class="member-info">
-                        <div>CEO</div>
-                        <!-- <div>MVP</div> -->
+            <div class="first-gen-row">
+                <div class="MVPmembers-grid">
+                    <div class="member-card">
+                        <div class="member-info">MVP</div>
+                        <div class="member-image"><i class="fas fa-user"></i></div>
+                        <div class="member-name">문동형</div>
+                        <div class="member-period">2023 ~ 2026</div>
+                        <div class="member-info">
+                            <div>CEO</div>
+                            <div>경영학과</div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- <div class="member-card">
-                    <div class="member-image"><i class="fas fa-user"></i></div>
-                    <div class="member-name">김영미</div>
-                    <div class="member-period">2021 ~ 2023</div>
-                    <div class="member-info">
-                        <div>AppTech Co.</div>
-                        <div>Co-founder</div>
+                <div class="members-grid">
+                    <div class="member-card">
+                        <div class="member-image"><i class="fas fa-user"></i></div>
+                        <div class="member-name">유민혁</div>
+                        <div class="member-period">2023 ~ 2025</div>
+                        <div class="member-info">
+                            <div>CFO</div>
+                            <div>회계학과</div>
+                        </div>
                     </div>
-                </div> -->
 
+                    <div class="member-card">
+                        <div class="member-image"><i class="fas fa-user"></i></div>
+                        <div class="member-name">유영민</div>
+                        <div class="member-period">2023 ~ 2025</div>
+                        <div class="member-info">
+                            <div>COO</div>
+                            <div>회계학과</div>
+                        </div>
+                    </div>
 
+                    <div class="member-card">
+                        <div class="member-image"><i class="fas fa-user"></i></div>
+                        <div class="member-name">김다혁</div>
+                        <div class="member-period">2023 ~ 2024</div>
+                        <div class="member-info">
+                            <div>CTO</div>
+                            <div>경영학과</div>
+                        </div>
+                    </div>
+
+                    <div class="member-card">
+                        <div class="member-image"><i class="fas fa-user"></i></div>
+                        <div class="member-name">노가연</div>
+                        <div class="member-period">2023 ~ 2024</div>
+                        <div class="member-info">
+                            <div>CCO</div>
+                            <div>산업광고심리학과</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Generation 2 -->
-        <div class="generation-section">
-            <h2 class="generation-title">2기</h2>
-            <div class="members-grid">
-                <div class="member-card">
-                    <div class="member-image"><i class="fas fa-user"></i></div>
-                    <div class="member-name">홍길동</div>
-                    <div class="member-period">2023 ~ 2024</div>
-                    <div class="member-info">회원</div>
-                </div>
+        <div class="small-gens-row">
+            <!-- Generation 2 -->
+            <div class="generation-section">
+                <h2 class="generation-title">2기</h2>
+                <div class="members-grid">
+                    <div class="member-card">
+                        <div class="member-image"><i class="fas fa-user"></i></div>
+                        <div class="member-name">고은별</div>
+                        <div class="member-period">2024 ~ 2026</div>
+                        <div class="member-info">
+                            <div>CSO</div>
+                            <div>경찰학과</div>
+                        </div>
+                    </div>
 
-                <div class="member-card">
-                    <div class="member-image"><i class="fas fa-user"></i></div>
-                    <div class="member-name">김영미</div>
-                    <div class="member-period">2023 ~ 2024</div>
-                    <div class="member-info">회원</div>
-                </div>
+                    <div class="member-card current-member">
+                        <div class="member-image"><i class="fas fa-user"></i></div>
+                        <div class="member-name">윤지훈</div>
+                        <div class="member-period">2024 ~ 현재</div>
+                        <div class="member-info">
+                            <div>CIO</div>
+                            <div>군사학과</div>
+                        </div>
+                    </div>
 
+
+                </div>
             </div>
-        </div>
 
-                    <!-- Generation 3 -->
-        <div class="generation-section">
-            <h2 class="generation-title">3기</h2>
-            <div class="members-grid">
-                <div class="member-card">
-                    <div class="member-image"><i class="fas fa-user"></i></div>
-                    <div class="member-name">김민서</div>
-                    <div class="member-period">2024 ~ 2025</div>
-                    <div class="member-info">
-                        <div>member</div>
-                        <div>--</div>
+            <!-- Generation 3 -->
+            <div class="generation-section">
+                <h2 class="generation-title">3기</h2>
+                <div class="members-grid">
+                    <div class="member-card">
+                        <div class="member-image"><i class="fas fa-user"></i></div>
+                        <div class="member-name">김민서</div>
+                        <div class="member-period">2024 ~ 2025</div>
+                        <div class="member-info">
+                            <div>CKO</div>
+                            <div>군사학과</div>
+                        </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
 
@@ -444,10 +560,101 @@
             <h2 class="generation-title">4기</h2>
             <div class="members-grid">
 
+                <div class="member-card current-member">
+                    <div class="member-image"><i class="fas fa-user"></i></div>
+                    <div class="member-name">임성재</div>
+                    <div class="member-period">2025 ~ 현재</div>
+                    <div class="member-info">
+                        <div>CTO</div>
+                        <div>컴퓨터공학과</div>
+                    </div>
+                </div>
+
+                <div class="member-card current-member">
+                    <div class="member-image"><i class="fas fa-user"></i></div>
+                    <div class="member-name">장재훈</div>
+                    <div class="member-period">2025 ~ 현재</div>
+                    <div class="member-info">
+                        <div>CIO</div>
+                        <div>컴퓨터공학과</div>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-image"><i class="fas fa-user"></i></div>
+                    <div class="member-name">장준서</div>
+                    <div class="member-period">2025 ~ 2026</div>
+                    <div class="member-info">
+                        <!-- <div>CCO</div> -->
+                        <div>AI소프트웨어학과</div>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-image"><i class="fas fa-user"></i></div>
+                    <div class="member-name">문예진</div>
+                    <div class="member-period">2025 ~ 2026</div>
+                    <div class="member-info">
+                        <!-- <div>CCO</div> -->
+                        <div>산업광고심리학과</div>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-image"><i class="fas fa-user"></i></div>
+                    <div class="member-name">이효정</div>
+                    <div class="member-period">2025 ~ 2026</div>
+                    <div class="member-info">
+                        <!-- <div>CCO</div> -->
+                        <div>식품영양학과</div>
+                    </div>
+                </div>
+
+
+                
+            </div>
+
+
+        </div>
+            <!-- Generation 5 -->
+            <div class="generation-section">
+                <h2 class="generation-title">5기</h2>
+                <div class="members-grid">
+                    <div class="member-card current-member">
+                        <div class="member-image"><i class="fas fa-user"></i></div>
+                        <div class="member-name">장우리</div>
+                        <div class="member-period">2026 ~ 현재</div>
+                        <div class="member-info">
+                            <div>산업광고심리학과/경영학과</div>
+                            <div>COO</div>
+                        </div>
+                    </div>
+
+
+                    <div class="member-card current-member">
+                        <div class="member-image"><i class="fas fa-user"></i></div>
+                        <div class="member-name">권현지</div>
+                        <div class="member-period">2026 ~ 현재</div>
+                        <div class="member-info">
+                            <div>경영학과/빅데이터</div>
+                            <div>CMO</div>
+                        </div>
+                    </div>
+                </div>
+
+
+
             </div>
         </div>
 
+
+
     </section>
+
+
+
+
+
 
 
 
@@ -459,10 +666,10 @@
             <div class="footer-links">
                 <a href="index.html#team">팀원</a>
                 <a href="index.html#portfolio">포트폴리오</a>
-                <a href="prize.html">수상이력</a>
+                <a href="prize_activity.html">수상이력/활동</a>
             </div>
             <div class="footer-bottom">
-                © 2024 C&H. All rights reserved.
+                © 2023 C&H. All rights reserved.
             </div>
         </div>
     </footer>
