@@ -435,6 +435,8 @@
         .member-modal-window {
             max-width: 600px;
             width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
             background: rgba(10, 14, 39, 0.95);
             border-radius: 15px;
             padding: 2.5rem;
@@ -442,6 +444,21 @@
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
             color: white;
             animation: modalSlideIn 0.3s ease;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(59, 130, 246, 0.4) transparent;
+        }
+        
+        .member-modal-window::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        .member-modal-window::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .member-modal-window::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.4);
+            border-radius: 3px;
         }
         
         @keyframes modalSlideIn {
@@ -548,6 +565,30 @@
             line-height: 1.8;
             font-size: 0.95rem;
             white-space: pre-line;
+        }
+        
+        .modal-info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+        
+        .modal-info-list li {
+            padding-left: 1.3rem;
+            position: relative;
+            margin-bottom: 0.2rem;
+        }
+        
+        .modal-info-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #60a5fa;
+            font-size: 0.8rem;
+            top: 0.15em;
         }
         
         .modal-social-links {
@@ -773,7 +814,7 @@
         
         <div class="team-grid">
             <!-- Team Member 1 -->
-            <div class="team-member fade-in-up" onclick="openMemberModal('윤지훈', 'CEO', './assets/images/yoon.png', '팀 전체의 비전을 제시하고 전략적 방향을 이끌고 있습니다.', '창업동아리 팀장으로서 팀원들과 함께 성장하며 혁신적인 프로젝트를 주도하고 있습니다.', 'https://instagram.com/jihun_growth_')">
+            <div class="team-member fade-in-up" onclick="openMemberModal('윤지훈', 'CEO', './assets/images/yoon.png', '', '', 'https://instagram.com/jihun_growth_')">
                 <div class="team-image">
                     <img src="./assets/images/yoon.png" alt="윤지훈">
                 </div>
@@ -933,15 +974,8 @@
                 <p class="member-modal-position" id="modal-member-position">직책</p>
             </div>
             
-            <div class="member-modal-content">
-                <div class="modal-info-section">
-                    <div class="modal-info-title">소개</div>
-                    <div class="modal-info-text" id="modal-member-intro">소개 내용</div>
-                </div>
-                <div class="modal-info-section">
-                    <div class="modal-info-title">경력 및 활동</div>
-                    <div class="modal-info-text" id="modal-member-career">경력 내용</div>
-                </div>
+            <div class="member-modal-content" id="modal-member-content">
+                <!-- 동적으로 채워짐 -->
             </div>
             
             <div class="modal-social-links">
@@ -951,13 +985,97 @@
     </div>
 
     <script>
+        const memberProfiles = {
+            '윤지훈': {
+                sections: [
+                    {
+                        title: '전공',
+                        text: '군사학과 (주전공) · 빅데이터인공지능 (복수전공) · 지능 IoT (부전공)'
+                    },
+                    {
+                        title: '활동',
+                        items: [
+                            '교육부 COSS IoT 서포터즈 2기',
+                            '국방부 M프랜즈 서포터즈 11기',
+                            '2026 CES 대전통합관 서포터즈 활동',
+                            '국방 전력지원체계 행사지원 (육군수송학교장 표창)'
+                        ]
+                    },
+                    {
+                        title: '상훈',
+                        items: [
+                            'COSS 우수 서포터즈 대상 (교육부 장관상)',
+                            'CO SHOW AI&amp;IoT Innovation 챌린지 최우수상 (부산광역시장상)',
+                            '스타트업 스쿨 우수상 (대전창조경제혁신센터장상)',
+                            '대내외 수상경력 20회'
+                        ]
+                    },
+                    {
+                        title: '수료',
+                        items: [
+                            '고용노동부 미래내일 일경험 프로젝트형 23년·24년',
+                            '드론특화형 국방 창업교육 수료 및 데모데이 팀 선정 (725만원 지원)',
+                            '학생 창업유망팀 성장 트랙 (교육부 장관 인증)',
+                            'AI 커리어 스쿨',
+                            '한국재정정보원 국가보조사업 예비전문가',
+                            '뉴질랜드 단기연수 ELA 어학원',
+                            '성폭력전문 상담원 과정',
+                            'IoT 활용 아이디어톤',
+                            '국방 AI + ICT 창의융합 교육'
+                        ]
+                    },
+                    {
+                        title: '자격증',
+                        items: [
+                            '초경량비행장치 무인멀티콥터 지도조종사 (교관)',
+                            '한국사 2급',
+                            '드론 정비사 3급',
+                            '초경량비행장치 무인수직이착륙기 4종',
+                            '초경량비행장치 무인비행기 4종',
+                            '스쿠버다이빙 오픈워터',
+                            'CDS 전문가 2급',
+                            '빅데이터 전문가',
+                            '코딩지도사 1급',
+                            '특전무술 1단 · 크라브마가 2단 · 태권도 3단'
+                        ]
+                    }
+                ]
+            }
+        };
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
+
+        function buildModalContent(name, intro, career) {
+            if (memberProfiles[name]) {
+                return memberProfiles[name].sections.map(section => {
+                    const body = section.items
+                        ? `<ul class="modal-info-list">${section.items.map(i => `<li>${i}</li>`).join('')}</ul>`
+                        : `<div class="modal-info-text">${section.text}</div>`;
+                    return `<div class="modal-info-section"><div class="modal-info-title">${section.title}</div>${body}</div>`;
+                }).join('');
+            }
+            return `
+                <div class="modal-info-section">
+                    <div class="modal-info-title">소개</div>
+                    <div class="modal-info-text">${escapeHtml(intro)}</div>
+                </div>
+                <div class="modal-info-section">
+                    <div class="modal-info-title">경력 및 활동</div>
+                    <div class="modal-info-text">${escapeHtml(career)}</div>
+                </div>`;
+        }
+
         function openMemberModal(name, position, image, intro, career, instagramUrl) {
             const modal = document.getElementById('member-modal');
             document.getElementById('modal-member-name').textContent = name;
             document.getElementById('modal-member-position').textContent = position;
-            document.getElementById('modal-member-intro').textContent = intro;
-            document.getElementById('modal-member-career').textContent = career;
             document.getElementById('modal-instagram-link').href = instagramUrl;
+            document.getElementById('modal-member-content').innerHTML = buildModalContent(name, intro, career);
             
             const imgElement = document.getElementById('modal-member-image');
             const iconElement = document.getElementById('modal-member-icon');
@@ -972,6 +1090,7 @@
             }
             
             modal.classList.add('active');
+            modal.scrollTop = 0;
             document.body.style.overflow = 'hidden';
         }
 
